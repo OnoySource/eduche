@@ -1,0 +1,504 @@
+*{
+    boder:1px solid red;
+ 
+}
+html, body {
+    overflow-x: hidden;
+}
+body{
+    background-color: #f4f6f8;
+    font-size: clamp(14px, 1.5vw, 18px);
+    font-family: "Poppins", sans-serif;
+    margin:0;
+    height: 100vh;
+    color: #212529;
+    line-height: 1.6rem;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    }
+    .poppins-thin {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+    #nav-links{
+        background-color: #f4f6f8;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius:8px;
+    }
+    .nav-links, a{
+        color: #212529;
+        text-decoration: none;
+    }
+    header{
+        padding: 0.5rem;
+    }
+    header h1{
+        color: #212529;
+        font-weight: bold;
+    }
+    section{
+        display:flex;
+        margin:0; padding: 0;
+        justify-content: center;
+        align-items: center;
+    }
+    @keyframes slide {
+      0%    { transform: translateX(0); }
+      20%   { transform: translateX(0); }
+
+      25%   { transform: translateX(-100%); }
+      40%   { transform: translateX(-100%); }
+
+      45%   { transform: translateX(-200%); }
+      60%   { transform: translateX(-200%); }
+
+      65%   { transform: translateX(-300%); }
+      80%   { transform: translateX(-300%); }
+
+      85%   { transform: translateX(-400%); }
+      100%  { transform: translateX(-400%); }
+    }
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translateY(14px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translateY(-14px);
+    }
+
+  
+    #container{
+        background-color: #ffffff;
+        border-radius: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    .box{
+        width: 100%;
+        flex: 1 1 300px;
+        background: linear-gradient(135deg, #3f8efc, #5a189a);
+        padding: 1rem;
+        color: #ffffff;
+        border-radius: 8px;
+    }
+    
+    .step-list{
+        border-radius: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        width: 100%;
+        color: #212529;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+    .step-box{
+        width: 100%;
+        background-color: #ccdbfd;
+        flex: 1 1 300px;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    .step-box > h4{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width:50px;
+        height: 50px;
+        margin:0 auto 1rem;
+        text-align: center;
+        background-color: #abc4ff;
+        color: #4895ef;
+        border-radius: 50%;
+    }
+    
+    #contact-person{
+        border-radius: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        width: 100%;
+        color: #212529;
+        text-align: center;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .contact-box{
+        width: 100%;
+        height: auto;
+        flex: 1 1 300px;
+        gap: 8px;
+        padding: 1rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+    }
+    .icons-contact{
+        background-color: #ccdbfd;
+        width:40px;
+        height: 40px;
+        padding: 0.3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
+    .icons-contact img{
+    }
+    footer{
+        width: 100vw;
+        position: relative;
+        background-color: #212529;
+        color: #ffffff;
+        display: flex;
+        justify-content: space-around;
+        left: calc(-1 * clamp(1rem, 4vw, 2rem));
+        padding: 1rem;
+    }
+
+    .box-text{
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .text{
+        margin-top: 1rem;
+        padding: 8px 0px;
+        display: block;
+    }
+   
+    button{
+        width: 100%;
+        background-color: #007bff;
+        margin-top: 10px;
+        padding:1rem;
+        border: none;
+        border-radius: 8px;
+    }
+    button a{
+        text-decoration:none;
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+    form{
+        width: 100%;
+        padding: 0px 10px;
+    }    
+    form h3{
+    }
+    hr{
+        border: 1px solid #fcbf49;
+    }
+    .checkbox:hover{
+        background-color: #ced4da;
+    }
+    #drop-area{
+        background-color: #f4f6f8;
+    }
+ 
+
+    .payment{
+        background-color: #f4d35e;
+        border-radius: 8px;
+        padding: 10px 20px;
+    }
+
+
+/* Responsive Mobile */
+@media (max-width: 600px) {
+    body{
+        
+    }
+    header{
+        padding-inline: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #container{
+        margin: 0 auto;
+    }
+    .tagline{
+        display: none;
+    }
+    #nav-links{
+        position: fixed;
+        height:100vh;
+        width:50%;
+        float: right;
+        right: -300px;
+        transition: right 0.4s ease;
+        z-index: 1000;
+    }
+    #nav-links.show{
+        right: 0;
+    }
+    .nav-links ul,li{
+        list-style: none;
+        justify-content: space-evenly;
+        margin: 20px;
+        text-align: center;
+    }
+
+    #humberger, span{
+        position: relative;
+        display: flex;
+        width:28px;
+        height:3px;
+        background-color: #4895ef;
+        border-radius:10%;
+        margin: 7px;
+        transition: 0.4s ease;
+    }
+    
+    .slider{
+        width: 100%;
+        max-width: 600px;
+        height: 300px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        
+    }
+    .slides {
+        display: flex;
+        
+        width: 100%;
+        height: 100%;
+        animation: slide 20s infinite;
+    }
+    .slides img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 7px;
+    }
+    
+
+    .slides {
+        display: flex;
+        
+        width: 100%;
+        height: 100%;
+        animation: slide 20s infinite;
+    }
+    .slides img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 7px;
+    }
+
+    
+    #checkboxId{
+        width: 100%;
+    }
+     .checkbox{
+        width: auto;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 0.5rem;
+        border: 1px solid #adb5bd;
+        transition: background-color 0.3s;
+        border-radius:5px;
+    }
+    .custom{
+        transform: scale(1.5);
+    }
+
+
+    .box-text input{
+        width: 100%;
+        outline: none;
+        padding: 10px;
+        border: none;
+        border: 1px solid #adb5bd;
+        border-radius:5px;
+        box-sizing: border-box;
+    }
+    
+    #drop-area {
+        width: 100%;
+        border: 2px dashed #ccc;
+        font-weight: initial;
+        box-sizing: border-box;
+        padding: 30px;
+        text-align: center;
+        border-radius: 10px;
+    }
+    
+    #drop-area.hover {
+        background: #f9f9f9;
+    }
+    #drop-area img{
+        width: 30%;
+    }
+    
+
+    #file-list {
+      margin-top: 20px;
+      font-family: sans-serif;
+    }
+
+    .file-item {
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    footer{
+ 
+        font-size: 10px;
+    }
+
+}
+
+/* Responsive Desktop */
+@media (min-width: 1025px) {
+    body{
+        padding-inline:0;
+    }
+    header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+    }
+    .tagline{
+        color: #4895ef;
+        font-size: 0.8rem;
+        margin-top:4rem;
+    }
+    #container{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    #nav-links{
+        position: fixed;
+        height:100vh;
+        width:30%;
+        float: right;
+        right: -700px;
+        transition: right 0.4s ease;
+        z-index: 1000;
+    }
+    #nav-links.show{
+        right: 0;
+    }
+    .nav-links ul,li{
+        list-style: none;
+        justify-content: space-evenly;
+        margin: 10%;
+        text-align: center;
+    }
+    #humberger, span{
+        position: relative;
+        display: flex;
+        width:32px;
+        height:4px;
+        background-color: #4895ef;
+        border-radius:10%;
+        margin: 7px;
+        transition: 0.4s ease;
+    }
+
+    .slider{
+        width: 100%;
+        max-width: 900px;
+        height: auto;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        display: none;
+    }
+    .slides {
+        display: flex;
+
+        width: 100%;
+        height: 100%;
+        animation: slide 20s infinite;
+    }
+    .slides img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 7px;
+    }
+    #checkboxId{
+        width: auto;
+        box-sizing: border-box;
+        display: flex; gap: 8px;
+    }
+    .checkbox{
+        width: auto;
+        gap: 8px;
+        align-items: center;
+        padding: 0.5rem;
+        background-color: #f4f6f8;
+        border: 1px solid #e9ecef;
+        transition: background-color 0.3s;
+        border-radius:5px;
+    }
+  
+    .box-text input{
+        width: 50%;
+        padding: 13px;
+        outline: none;
+        border: none;
+        border: 1px solid #adb5bd;
+        border-radius:5px;
+        box-sizing: border-box;
+    }
+    .box{
+        padding: 2rem;
+    }
+    .custom{
+        transform: scale(1.5);
+    }
+    form{
+        width: 100%;
+    }
+
+    #drop-area {
+        width: 100%;
+        border: 2px dashed #ccc;
+        font-weight: initial;
+        box-sizing: border-box;
+        padding: 30px;
+        text-align: center;
+        border-radius: 10px;
+        transition: background 0.3s;
+    }
+    
+    #drop-area.hover {
+        background: #f9f9f9;
+    }
+    #drop-area img{
+        width: 10%;
+    }
+    
+
+    #file-list {
+      margin-top: 20px;
+      font-family: sans-serif;
+    }
+
+    .file-item {
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .box-bukti{
+    }
+ 
+
+
+}
