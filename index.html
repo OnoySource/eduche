@@ -84,26 +84,30 @@
         <h3>Jenis Layanan</h3>
             <div id="checkboxId">
                 <label for="checkbox" class="checkbox">
-                <input type="checkbox" name="turnitin" class="custom"> Cek Turnitin (Rp 5000)</label>
+                <input type="radio" name="turnitin" class="custom"> Cek Turnitin (Rp 5000)</label>
                 <br>
                 <label for="checkbox" class="checkbox">
-                <input type="checkbox" name="parafrase" class="custom"> Parafrase </label>
-            </div>
-
-            
+                <input type="radio" name="parafrase" class="custom"> Parafrase </label>
+            </div>           
             <br>
-        <div class="box-text" >
-            <label for="nama" class="text">Nama Lengkap </label>
-            <input type="text" name="nama" id="nama">
-            
-            <label for="email" class="text">Email</label>
-            <input type="email" name="email" id="email">
-
-            <label for="whatsapp" class="text">Nomor WhatsApp</label>
-            <input type="text" name="whatsapp" id="whatsapp">
+        <div id="data-user">
+            <div class="box-text" >
+                <label for="nama" class="text">Nama Lengkap </label>
+                <input type="text" name="nama" id="nama">
                 
-            <label for="univ" class="text">Instuisi/Universitas</label>
-            <input type="text" name="univ" id="univ">
+                <label for="email" class="text">Email</label>
+                <input type="email" name="email" id="email">
+                
+                <label for="whatsapp" class="text">Nomor WhatsApp</label>
+                <input type="text" name="whatsapp" id="whatsapp">
+                
+                <label for="univ" class="text">Instuisi/Universitas</label>
+                <input type="text" name="univ" id="univ">
+            </div>
+                
+            <div class="image">
+                <img src="icons/Default_image_of_a_student_in_his_room_sitting_in_front_of_a_l_0-1.jpg" alt="">
+            </div>
         </div>
         <br> <br> <br>
 
@@ -112,8 +116,9 @@
             <br> <br>
             <div id="drop-area">
                 <img src="icons/circle-arrow-up-solid-full.svg" alt="">
-                <p>Pilih atau seret file kesini<button id="fileBtn">Pilih File </button></p>
-                <small style="color: #3e5c76;">Format: DOC, DOCX, PDF (Maks. 10MB)</small>
+                <p>Pilih atau seret file kesini</p>
+                <button id="fileBtn">Pilih File </button>
+                <p style="color: #3e5c76; font-size: 11px;">Format: DOC, DOCX, PDF (Maks. 10MB)</p>
                 
                 <input type="file" id="fileInput" hidden multiple>
             </div>
@@ -131,13 +136,14 @@
             <br> <br>
             <div id="drop-area">
                 <img src="icons/images-solid-full.svg" alt="">
-                <p>Pilih atau seret file kesini<button id="fileBtn">Pilih File </button></p> <br>
-                <small style="color: #3e5c76;">Format: JPG, PNG (Maks. 5MB)</small>
+                <p>Pilih atau seret file kesini </p>
+                    <button id="fileBtn">Pilih File </button>
+                <p style="color: #3e5c76; font-size: 11px;">Format: JPG, PNG (Maks. 5MB)</p>
                 
                 <input type="file" id="fileInput" hidden multiple>
             </div>
         </div>
-        <button type="submit">Kirim Pesanan</button>
+        <button type="submit"style="font-weight:bold;">Kirim Pesanan</button>
     </form>
     </div>
     <br> <br>
@@ -198,6 +204,7 @@
         </div>
     </div>
     </div>
+    <br> <br>
     <!-------------------------------------------------->
     <footer>
         <p>© 2023 Educheck. Semua hak dilindungi.</p>
