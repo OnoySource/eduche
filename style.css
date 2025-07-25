@@ -3,6 +3,7 @@
  
 }
 html, body {
+    scroll-behavior: smooth;
     overflow-x: hidden;
 }
 body{
@@ -84,11 +85,11 @@ body{
         background: linear-gradient(135deg, #3f8efc, #5a189a);
         padding: 1rem;
         color: #ffffff;
-        border-radius: 8px;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        border-radius: 20px;
     }
     
     .step-list{
-        border-radius: 8px;
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
@@ -103,7 +104,7 @@ body{
         background-color: #ccdbfd;
         flex: 1 1 300px;
         padding: 1rem;
-        border-radius: 8px;
+        border-radius: 20px;
     }
     .step-box > h4{
         display: flex;
@@ -118,6 +119,9 @@ body{
         border-radius: 50%;
     }
     
+    .contact{
+        width: 100%;
+    }
     #contact-person{
         border-radius: 8px;
         display: flex;
@@ -134,7 +138,6 @@ body{
         height: auto;
         flex: 1 1 300px;
         gap: 8px;
-        padding: 1rem;
         border-radius: 8px;
         display: flex;
         align-items: center;
@@ -149,19 +152,26 @@ body{
         align-items: center;
         border-radius: 50%;
     }
+    .step, .contact{
+        padding: 0px 10px;
+    }
     .icons-contact img{
     }
-    footer{
-        width: 100vw;
-        position: relative;
-        background-color: #212529;
-        color: #ffffff;
-        display: flex;
-        justify-content: space-around;
-        left: calc(-1 * clamp(1rem, 4vw, 2rem));
-        padding: 1rem;
-    }
 
+    #data-user{
+        display: flex;
+    }
+    .image{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .image img{
+        width: 70%;
+        border-radius: 50%;
+        opacity: 0.7;
+    }
     .box-text{
         width: 100%;
         margin-bottom: 1rem;
@@ -174,25 +184,27 @@ body{
    
     button{
         width: 100%;
-        background-color: #007bff;
+        background-color: #3f8efc;
         margin-top: 10px;
-        padding:1rem;
+        padding: 0.75rem 1.5rem;
         border: none;
-        border-radius: 8px;
+        border-radius: 30px;
     }
     button a{
         text-decoration:none;
         color: #ffffff;
         font-weight: bold;
-        font-size: 1rem;
+        font-size: 0.5;
+    }
+    form button{
+        background: linear-gradient(135deg, #3f8efc, #5a189a);
+        color: #ffffff;
     }
     form{
         width: 100%;
         padding: 0px 10px;
-    }    
-    .step, .contact{
-        padding: 0px 10px;
-    }
+    }   
+ 
     form h3{
     }
     hr{
@@ -211,7 +223,16 @@ body{
         border-radius: 8px;
         padding: 10px 20px;
     }
-
+    footer{
+        width: 100vw;
+        position: relative;
+        background-color: #212529;
+        color: #ffffff;
+        display: flex;
+        justify-content: space-around;
+        left: calc(-1 * clamp(1rem, 4vw, 2rem));
+        padding: 1rem;
+    }
 
 /* Responsive Mobile */
 @media (max-width: 600px) {
@@ -294,7 +315,7 @@ body{
         padding: 0.5rem;
         border: 1px solid #adb5bd;
         transition: background-color 0.3s;
-        border-radius:5px;
+        border-radius:50px;
     }
     .custom{
         transform: scale(1.5);
@@ -307,8 +328,11 @@ body{
         padding: 10px;
         border: none;
         border: 1px solid #adb5bd;
-        border-radius:5px;
+        border-radius:50px;
         box-sizing: border-box;
+    }
+    .image{
+        display: none;
     }
     
     #drop-area {
@@ -326,6 +350,9 @@ body{
     }
     #drop-area img{
         width: 30%;
+    }
+    #drop-area #fileBtn{
+        width: 50%;
     }
     
 
@@ -431,20 +458,20 @@ body{
         width: auto;
         gap: 8px;
         align-items: center;
-        padding: 0.5rem;
+        padding:0.5rem 2rem;
         background-color: #f4f6f8;
         border: 1px solid #e9ecef;
         transition: background-color 0.3s;
-        border-radius:5px;
+        border-radius:50px;   
     }
-  
+    
     .box-text input{
-        width: 50%;
+        width: 90%;
         padding: 13px;
         outline: none;
         border: none;
         border: 1px solid #adb5bd;
-        border-radius:5px;
+        border-radius:50px;
         box-sizing: border-box;
     }
     .box{
@@ -465,7 +492,7 @@ body{
         padding: 30px;
         text-align: center;
         border-radius: 10px;
-        transition: background 0.3s;
+        transition: background-color 0.3s;
     }
     
     #drop-area.hover {
@@ -474,6 +501,10 @@ body{
     #drop-area img{
         width: 10%;
     }
+      #drop-area #fileBtn{
+        width: 50%;
+    }
+    
     
 
     #file-list {
