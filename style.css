@@ -190,6 +190,9 @@ body{
         width: 100%;
         padding: 0px 10px;
     }    
+    .step, .contact{
+        padding: 0px 10px;
+    }
     form h3{
     }
     hr{
@@ -223,6 +226,9 @@ body{
     }
     #container{
         margin: 0 auto;
+    }
+    #container h3{
+        color: ;
     }
     .tagline{
         display: none;
@@ -263,6 +269,7 @@ body{
         height: auto;
         overflow: hidden;
         box-shadow: 0 0 10px rgba(0,0,0,0.5);  
+        border-radius: 7px;
     }
     .slides {
         display: flex;
@@ -276,9 +283,6 @@ body{
         height: auto;
         object-fit: cover;
     }
-    
-
-    
     #checkboxId{
         width: 100%;
     }
