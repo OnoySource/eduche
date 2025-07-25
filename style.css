@@ -1,4 +1,4 @@
-*{
+    *{
     boder:1px solid red;
  
 }
@@ -206,6 +206,9 @@ body{
     }   
  
     form h3{
+    }
+    .box-text input:focus{
+        outline:1px solid #3f8efc;
     }
     hr{
         border: 1px solid #fcbf49;
