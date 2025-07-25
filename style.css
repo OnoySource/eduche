@@ -6,7 +6,7 @@ html, body {
     overflow-x: hidden;
 }
 body{
-    background-color: #f4f6f8;
+    background-color: red;
     font-size: clamp(14px, 1.5vw, 18px);
     font-family: "Poppins", sans-serif;
     margin:0;
