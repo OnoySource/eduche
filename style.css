@@ -340,6 +340,10 @@ body{
       border-radius: 6px;
       margin-bottom: 10px;
     }
+    .icons-contact{
+        width:20px;
+        height: 20px;
+    }
     footer{
  
         font-size: 10px;
