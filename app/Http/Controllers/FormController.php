@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Google_Service_Drive;
+use Google_Service_Drive_DriveFile;
 
 class FormController extends Controller
 {
@@ -26,21 +29,44 @@ class FormController extends Controller
         $nomor   = $request->input('no_hp');
         $univ    = $request->input('univ');
 
-        // Upload file
-        $dokumenPath = $request->file('dokumen')->store('dokumen', 'public');
-        $buktiPath   = $request->file('bukti')->store('bukti', 'public');
+        // Upload ke Google Drive
+        $dokumenFile = $request->file('dokumen');
+        $buktiFile   = $request->file('bukti');
 
-        // Buat link file
-        $linkDokumen = asset('storage/' . $dokumenPath);
-        $linkBukti   = asset('storage/' . $buktiPath);
+        $dokumenPath = $this->uploadToGoogleDrive($dokumenFile);
+        $buktiPath   = $this->uploadToGoogleDrive($buktiFile);
 
         // Format pesan WhatsApp
-        $pesan = "Halo Admin%0ASaya ingin menggunakan jasa {$layanan}.%0A%0ANama: {$nama}%0AEmail: {$email}%0ANo HP: {$nomor}%0AUniversitas: {$univ}%0A%0ALink Dokumen: {$linkDokumen}%0ALink Bukti Transfer: {$linkBukti}";
+        $pesan = "Halo Admin%0ASaya ingin menggunakan jasa {$layanan}.%0A%0ANama: {$nama}%0AEmail: {$email}%0ANo HP: {$nomor}%0AUniversitas: {$univ}%0A%0ALink Dokumen: {$dokumenPath}%0ALink Bukti Transfer: {$buktiPath}";
 
         // Nomor admin WhatsApp
-        $noWaAdmin = "6285268360526"; // ganti dengan nomor kamu
+        $noWaAdmin = "6285268360526";
 
         // Redirect ke WhatsApp
         return redirect()->away("https://wa.me/{$noWaAdmin}?text={$pesan}");
     }
+
+    protected function uploadToGoogleDrive($file)
+    {
+        // Simpan sementara ke storage Laravel
+        $path = $file->store('', 'google'); // simpan langsung ke Google Drive root / folder
+
+        // Ambil metadata file
+        $googleDrive = Storage::disk('google');
+        $adapter = $googleDrive->getAdapter();
+        $service = $adapter->getService();
+
+        // Ambil file ID
+        $fileId = $adapter->getMetadata($path)['extraMetadata']['id'];
+
+        // Jadikan file publik (agar bisa dishare)
+        $permission = new \Google_Service_Drive_Permission();
+        $permission->setType('anyone');
+        $permission->setRole('reader');
+        $service->permissions->create($fileId, $permission);
+
+        // Buat URL publik
+        return "https://drive.google.com/file/d/{$fileId}/view";
+    }
 }
+    
