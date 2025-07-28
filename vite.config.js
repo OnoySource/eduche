@@ -8,11 +8,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    server: {
-        https: true,
-        hmr: {
-            host: 'eduche-production.up.railway.app',
-        },
-    },
-    base: '/build/',
+    base: '/build/', // Ini sudah benar untuk production
 });
