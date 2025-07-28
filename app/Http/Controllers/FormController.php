@@ -45,28 +45,41 @@ class FormController extends Controller
         // Redirect ke WhatsApp
         return redirect()->away("https://wa.me/{$noWaAdmin}?text={$pesan}");
     }
-
     protected function uploadToGoogleDrive($file)
-    {
-        // Simpan sementara ke storage Laravel
-        $path = $file->store('', 'google'); // simpan langsung ke Google Drive root / folder
+{
+    \Log::info("Mencoba upload file: " . $file->getClientOriginalName());
 
-        // Ambil metadata file
-        $googleDrive = Storage::disk('google');
-        $adapter = $googleDrive->getAdapter();
-        $service = $adapter->getService();
+    // Simpan ke Google Drive
+    $path = $file->store('', 'google');
 
-        // Ambil file ID
-        $fileId = $adapter->getMetadata($path)['extraMetadata']['id'];
+    \Log::info("Path setelah upload: " . $path);
 
-        // Jadikan file publik (agar bisa dishare)
-        $permission = new \Google_Service_Drive_Permission();
-        $permission->setType('anyone');
-        $permission->setRole('reader');
-        $service->permissions->create($fileId, $permission);
-
-        // Buat URL publik
-        return "https://drive.google.com/file/d/{$fileId}/view";
+    if (!$path) {
+        \Log::error("Gagal upload file ke Google Drive.");
+        throw new \Exception("Gagal upload file.");
     }
+
+    // Ambil metadata file
+    $googleDrive = Storage::disk('google');
+    $adapter = $googleDrive->getAdapter();
+    $service = $adapter->getService();
+
+    $metadata = $adapter->getMetadata($path);
+
+    if (!$metadata || !isset($metadata['extraMetadata']['id'])) {
+        \Log::error("Gagal mendapatkan metadata dari path: " . $path);
+        throw new \Exception("Upload ke Google Drive gagal.");
+    }
+
+    $fileId = $metadata['extraMetadata']['id'];
+
+    // Jadikan file publik
+    $permission = new \Google_Service_Drive_Permission();
+    $permission->setType('anyone');
+    $permission->setRole('reader');
+    $service->permissions->create($fileId, $permission);
+
+    return "https://drive.google.com/file/d/{$fileId}/view";
 }
-    
+
+}
