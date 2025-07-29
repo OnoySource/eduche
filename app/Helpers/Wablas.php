@@ -1,5 +1,3 @@
-<?php
-
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Http;
@@ -13,18 +11,18 @@ class Wablas
 
     public static function sendText($phone, $message)
     {
-        $response = Http::asForm()->post(self::getEndpoint('/api/send-message'), [
+        $response = Http::asForm()->post(self::getEndpoint('/api/v2/send-message'), [
             'token'   => env('WABLAS_TOKEN'),
             'phone'   => $phone,
             'message' => $message,
         ]);
 
-        return $response->json(); // tambahkan pengecekan jika perlu
+        return $response->json();
     }
 
     public static function sendFile($phone, $caption, $fileUrl)
     {
-        $response = Http::asForm()->post(self::getEndpoint('/api/send-document'), [
+        $response = Http::asForm()->post(self::getEndpoint('/api/v2/send-document'), [
             'token'    => env('WABLAS_TOKEN'),
             'phone'    => $phone,
             'caption'  => $caption,
