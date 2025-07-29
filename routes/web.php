@@ -9,23 +9,4 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/hasil', [HomeController::class, 'hasil']);
 
 Route::post('/',[FormController::class, 'prosesForm'])->name('proses.form');
-
-Route::get('/cek-drive', function () {
-    try {
-        // List isi Google Drive
-        $files = Storage::disk('google')->listContents('/', false);
-
-        return response()->json([
-            'status' => 'berhasil',
-            'jumlah_item' => $files->count(),
-            'files' => $files
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'gagal',
-            'pesan' => $e->getMessage()
-        ]);
-    }
-});
-
-
+Route::get('/tes-kirim-wa', [FormController::class, 'kirimWa'])->name('kirim.wa');

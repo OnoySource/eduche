@@ -10,7 +10,7 @@ class Wablas
     {
         $response = Http::withHeaders([
             'Authorization' => env('WABLAS_API_KEY'),
-        ])->post('https://console.wablas.com/api/v2/send-message', [
+        ])->post('https://send.wablas.com/api/v2/send-message', [
             'phone' => $phone,
             'message' => $message,
             'device' => env('WABLAS_DEVICE_PHONE'),
@@ -23,7 +23,7 @@ class Wablas
     {
         $response = Http::withHeaders([
             'Authorization' => env('WABLAS_API_KEY'),
-        ])->post('https://console.wablas.com/api/v2/send-document', [
+        ])->post('https://send.wablas.com/api/v2/send-document', [
             'phone' => $phone,
             'caption' => $caption,
             'url' => $fileUrl,
