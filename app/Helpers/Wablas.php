@@ -3,44 +3,34 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Config;
 
 class Wablas
 {
     protected static function getEndpoint($path)
     {
-        return rtrim(Config::get('services.wablas.endpoint'), '/') . $path;
-    }
-
-    protected static function getHeaders()
-    {
-        return [
-            'Authorization' => Config::get('services.wablas.api_key'),
-        ];
+        return rtrim(env('WABLAS_ENDPOINT'), '/') . $path;
     }
 
     public static function sendText($phone, $message)
     {
-        $response = Http::withHeaders(self::getHeaders())
-            ->post(self::getEndpoint('/api/v2/send-message'), [
-                'phone'  => $phone,
-                'message'=> $message,
-                'device' => Config::get('services.wablas.device'),
-            ]);
+        $response = Http::asForm()->post(self::getEndpoint('/api/send-message'), [
+            'token'   => env('WABLAS_TOKEN'),
+            'phone'   => $phone,
+            'message' => $message,
+        ]);
 
         return $response->json();
     }
 
     public static function sendFile($phone, $caption, $fileUrl)
     {
-        $response = Http::withHeaders(self::getHeaders())
-            ->post(self::getEndpoint('/api/v2/send-document'), [
-                'phone'    => $phone,
-                'caption'  => $caption,
-                'url'      => $fileUrl,
-                'filename' => basename($fileUrl),
-                'device'   => Config::get('services.wablas.device'),
-            ]);
+        $response = Http::asForm()->post(self::getEndpoint('/api/send-document'), [
+            'token'    => env('WABLAS_TOKEN'),
+            'phone'    => $phone,
+            'caption'  => $caption,
+            'url'      => $fileUrl,
+            'filename' => basename($fileUrl),
+        ]);
 
         return $response->json();
     }
