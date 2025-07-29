@@ -9,28 +9,28 @@ class Wablas
     {
         return rtrim(env('WABLAS_ENDPOINT'), '/') . $path;
     }
+      public static function sendText($phone, $message)
+      {
+          $response = Http::asForm()->post(self::getEndpoint('/api/send-message'), [
+              'token'   => env('WABLAS_TOKEN'),
+              'phone'   => $phone,
+              'message' => $message,
+          ]);
 
-    public static function sendText($phone, $message)
-    {
-        $response = Http::asForm()->post(self::getEndpoint('/api/v2/send-message'), [
-            'token'   => env('WABLAS_TOKEN'),
-            'phone'   => $phone,
-            'message' => $message,
-        ]);
+          return $response->json();
+      }
 
-        return $response->json();
-    }
+      public static function sendFile($phone, $caption, $fileUrl)
+      {
+          $response = Http::asForm()->post(self::getEndpoint('/api/send-document'), [
+              'token'    => env('WABLAS_TOKEN'),
+              'phone'    => $phone,
+              'caption'  => $caption,
+              'url'      => $fileUrl,
+              'filename' => basename($fileUrl),
+          ]);
 
-    public static function sendFile($phone, $caption, $fileUrl)
-    {
-        $response = Http::asForm()->post(self::getEndpoint('/api/v2/send-document'), [
-            'token'    => env('WABLAS_TOKEN'),
-            'phone'    => $phone,
-            'caption'  => $caption,
-            'url'      => $fileUrl,
-            'filename' => basename($fileUrl),
-        ]);
+          return $response->json();
+      }
 
-        return $response->json();
-    }
 }
