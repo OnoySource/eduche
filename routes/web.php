@@ -12,21 +12,20 @@ Route::post('/',[FormController::class, 'prosesForm'])->name('proses.form');
 
 Route::get('/cek-drive', function () {
     try {
-        // Coba akses isi folder Google Drive
+        // List isi Google Drive
         $files = Storage::disk('google')->listContents('/', false);
 
-        // Jika berhasil, tampilkan list file/folder
         return response()->json([
             'status' => 'berhasil',
-            'jumlah_item' => count($files),
+            'jumlah_item' => $files->count(),
             'files' => $files
         ]);
     } catch (\Exception $e) {
-        // Jika gagal, tampilkan pesan error
         return response()->json([
             'status' => 'gagal',
             'pesan' => $e->getMessage()
         ]);
     }
 });
+
 
