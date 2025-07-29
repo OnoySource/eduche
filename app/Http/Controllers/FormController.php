@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Google_Service_Drive;
-use Google_Service_Drive_DriveFile;
 
 class FormController extends Controller
 {
@@ -29,15 +27,16 @@ class FormController extends Controller
         $nomor   = $request->input('no_hp');
         $univ    = $request->input('univ');
 
-        // Upload ke Google Drive
-        $dokumenFile = $request->file('dokumen');
-        $buktiFile   = $request->file('bukti');
+        // Simpan file di storage lokal sementara
+        $dokumenPath = $request->file('dokumen')->store('uploads/dokumen', 'public');
+        $buktiPath   = $request->file('bukti')->store('uploads/bukti', 'public');
 
-        $dokumenPath = $this->uploadToGoogleDrive($dokumenFile);
-        $buktiPath   = $this->uploadToGoogleDrive($buktiFile);
+        // Ambil URL untuk file yang diupload
+        $dokumenUrl = asset('storage/' . $dokumenPath);
+        $buktiUrl   = asset('storage/' . $buktiPath);
 
         // Format pesan WhatsApp
-        $pesan = "Halo Admin%0ASaya ingin menggunakan jasa {$layanan}.%0A%0ANama: {$nama}%0AEmail: {$email}%0ANo HP: {$nomor}%0AUniversitas: {$univ}%0A%0ALink Dokumen: {$dokumenPath}%0ALink Bukti Transfer: {$buktiPath}";
+        $pesan = "Halo Admin%0ASaya ingin menggunakan jasa {$layanan}.%0A%0ANama: {$nama}%0AEmail: {$email}%0ANo HP: {$nomor}%0AUniversitas: {$univ}%0A%0ALink Dokumen: {$dokumenUrl}%0ALink Bukti Transfer: {$buktiUrl}";
 
         // Nomor admin WhatsApp
         $noWaAdmin = "6285268360526";
@@ -45,6 +44,4 @@ class FormController extends Controller
         // Redirect ke WhatsApp
         return redirect()->away("https://wa.me/{$noWaAdmin}?text={$pesan}");
     }
-
-
 }
