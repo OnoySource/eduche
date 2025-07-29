@@ -19,7 +19,7 @@ class Wablas
             'message' => $message,
         ]);
 
-        return $response->json();
+        return $response->json(); // tambahkan pengecekan jika perlu
     }
 
     public static function sendFile($phone, $caption, $fileUrl)
