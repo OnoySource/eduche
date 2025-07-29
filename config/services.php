@@ -30,5 +30,8 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'wablas' => [
+    'api_key' => env('WABLAS_API_KEY'),
+    'device'  => env('WABLAS_DEVICE_PHONE'),
+    ],
 ];

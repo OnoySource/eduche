@@ -9,11 +9,11 @@ class Wablas
     public static function sendText($phone, $message)
     {
         $response = Http::withHeaders([
-            'Authorization' => env('WABLAS_API_KEY'),
+            'Authorization' => config('services.wablas.api_key'),
         ])->post('https://send.wablas.com/api/v2/send-message', [
             'phone' => $phone,
             'message' => $message,
-            'device' => env('WABLAS_DEVICE_PHONE'),
+            'device' => config('services.wablas.device'),
         ]);
 
         return $response->json();
@@ -22,15 +22,16 @@ class Wablas
     public static function sendFile($phone, $caption, $fileUrl)
     {
         $response = Http::withHeaders([
-            'Authorization' => env('WABLAS_API_KEY'),
+            'Authorization' => config('services.wablas.api_key'),
         ])->post('https://send.wablas.com/api/v2/send-document', [
             'phone' => $phone,
             'caption' => $caption,
             'url' => $fileUrl,
-            'filename' => 'dokumen.pdf',
-            'device' => env('WABLAS_DEVICE_PHONE'),
+            'filename' => basename($fileUrl),
+            'device' => config('services.wablas.device'),
         ]);
 
         return $response->json();
     }
 }
+  
