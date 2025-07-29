@@ -31,7 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'wablas' => [
-    'api_key' => env('WABLAS_API_KEY'),
-    'device'  => env('WABLAS_DEVICE_PHONE'),
+        'api_key' => env('WABLAS_API_KEY'),
+        'endpoint' => env('WABLAS_ENDPOINT', 'https://sby.wablas.com'),
+        'device' => env('WABLAS_DEVICE'),
     ],
+
 ];
