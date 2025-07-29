@@ -45,41 +45,6 @@ class FormController extends Controller
         // Redirect ke WhatsApp
         return redirect()->away("https://wa.me/{$noWaAdmin}?text={$pesan}");
     }
-    protected function uploadToGoogleDrive($file)
-{
-    \Log::info("Mencoba upload file: " . $file->getClientOriginalName());
 
-    // Simpan ke Google Drive
-    $path = $file->store('', 'google');
-
-    \Log::info("Path setelah upload: " . $path);
-
-    if (!$path) {
-        \Log::error("Gagal upload file ke Google Drive.");
-        throw new \Exception("Gagal upload file.");
-    }
-
-    // Ambil metadata file
-    $googleDrive = Storage::disk('google');
-    $adapter = $googleDrive->getAdapter();
-    $service = $adapter->getService();
-
-    $metadata = $adapter->getMetadata($path);
-
-    if (!$metadata || !isset($metadata['extraMetadata']['id'])) {
-        \Log::error("Gagal mendapatkan metadata dari path: " . $path);
-        throw new \Exception("Upload ke Google Drive gagal.");
-    }
-
-    $fileId = $metadata['extraMetadata']['id'];
-
-    // Jadikan file publik
-    $permission = new \Google_Service_Drive_Permission();
-    $permission->setType('anyone');
-    $permission->setRole('reader');
-    $service->permissions->create($fileId, $permission);
-
-    return "https://drive.google.com/file/d/{$fileId}/view";
-}
 
 }
