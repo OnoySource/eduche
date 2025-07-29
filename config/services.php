@@ -35,5 +35,6 @@ return [
         'endpoint' => env('WABLAS_ENDPOINT', 'https://sby.wablas.com'),
         'device' => env('WABLAS_DEVICE'),
     ],
+    
 
 ];
