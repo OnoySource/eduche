@@ -60,7 +60,7 @@
         <div class="box">
             <h2>Cek Turnitin</h2>
             <p>Layanan pengecekan tingkat kemiripan dokumen Anda dengan database akademik global.</p>
-            <button>
+            <button id="layananBtn">
                 <a href="#">Rp 5.000 / file</a>
             </button>
         </div>
@@ -68,10 +68,10 @@
             <h2>Parafrase</h2>
             <p>Layanan mengubah struktur kalimat tanpa mengubah makna untuk mengurangi tingkat plagiarisme.</p>
             <div class="list-button">
-                <button>
+                <button id="layananBtn">
                     <a href="#">Skripsi/Jurnal: Rp 100.000 / file</a>
                 </button>
-                <button>
+                <button id="layananBtn">
                     <a href="#">Tesis/Buku: Rp 150.000 / file</a>
                 </button>
             </div>
@@ -168,12 +168,18 @@
             </div>
             <div id="fileListDokumen" class="file-list"></div>
         </div>
-
         <br><br>
-
         <!-- Upload Bukti -->
         <div class="box-bukti">
             <strong>Upload Bukti Transfer</strong><br><br>
+             <div class="payment">
+                <p><strong>Transfer ke Dana</strong> : 082377179728 (Edi Sulaiman)</p>
+                <div class="qris">
+                    <img src="{{asset('icons/educhek-qris.png')}}" alt="">
+                </div>
+            </div>
+            <br><br>
+
             <div id="drop-area-bukti" class="drop-area">
                 <img src="{{ asset('icons/images-solid-full.svg') }}" alt=""> 
                 <p>Pilih atau seret file ke sini</p>
@@ -190,7 +196,7 @@
         </div>
 
     <br>
-    <button type="submit" style="font-weight:bold;">Kirim Pesanan</button>
+    <button type="submit" style="font-weight:bold;" id="pemesananBtn">Kirim Pesanan</button>
     <!-------------------------------------------------->
     </form>
 

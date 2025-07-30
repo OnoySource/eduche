@@ -78,6 +78,7 @@ body{
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
+        padding: 10px 0px;
     }
     .box{
         width: 100%;
@@ -195,7 +196,7 @@ body{
         display: block;
     }
    
-    button{
+    #layananBtn{
         width: 100%;
         background-color: #3f8efc;
         margin-top: 10px;
@@ -341,8 +342,6 @@ body{
     .custom{
         transform: scale(1.5);
     }
-
-
     .box-text input{
         width: 100%;
         outline: none;
@@ -354,6 +353,13 @@ body{
     }
     .image{
         display: none;
+    }
+     .payment{
+        
+    }
+    .payment img{
+        width:100%;
+        box-sizing: border-box;
     }
 
     .drop-area {
@@ -372,6 +378,7 @@ body{
     #drop-area-dokumen, 
     #drop-area-bukti {
         width: 100%;
+        padding: 0px 30px;
         border: 2px dashed #ccc;
         font-weight: initial;
         box-sizing: border-box;
@@ -387,11 +394,23 @@ body{
     #drop-area-bukti img{
         width: 30%;
     }
-    #drop-area-dokumen #fileBtn,
-    #drop-are-bukti #fileBtn{
-        width: 50%;
+    #fileBtnDokumen,#fileBtnBukti
+    {
+        width: 70%;
+        background-color: #3f8efc;
+        margin-top: 10px;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 30px;
     }
-    
+    #pemesananBtn{
+        width: 100%;
+        background-color: #3f8efc;
+        margin-top: 10px;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 30px;
+    }
 
     #file-list {
       margin-top: 20px;
@@ -409,14 +428,13 @@ body{
         height: 20px;
     }
     footer{
- 
         font-size: 10px;
     }
 
 }
 
 /* Responsive Desktop */
-@media (min-width: 1025px) {
+@media (min-width: 1024px) {
     body{
         padding-inline:0;
     }
@@ -544,16 +562,16 @@ body{
 
     #drop-area-dokumen,
     #drop-area-bukti {
-             width: 100%;
-             position: relative;
-             border: 2px dashed #ccc;
-             font-weight: initial;
-             box-sizing: border-box;
-             text-align: center;
-             border-radius: 10px;
-             transition: background-color 0.3s;
-             z-index: 1000;
-             backgrund-color: red;
+        width: 100%;
+        padding: 0px 40px;
+        position: relative;
+        border: 2px dashed #ccc;
+        font-weight: initial;
+        box-sizing: border-box;
+        text-align: center;
+        border-radius: 10px;
+        transition: background-color 0.3s;
+        z-index: 1000;
     }
          
     #drop-area-dokumen.hover,
@@ -564,27 +582,51 @@ body{
     #drop-area-bukti img{
         width: 10%;
     }
-      #drop-area #fileBtn{
-        width: 50%;
+ 
+    #fileBtnDokumen,#fileBtnBukti
+    {
+        width: 70%;
+        background-color: #3f8efc;
+        margin-top: 10px;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 30px;
     }
-    
-    
-
+    #pemesananBtn{
+        width: 100%;
+        background-color: #3f8efc;
+        margin-top: 10px;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 30px;
+    }
     #file-list {
       margin-top: 20px;
       font-family: sans-serif;
     }
 
     .file-item {
-      border: 1px solid #ddd;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 10px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
     }
 
-    .box-bukti{
-    }
- 
+  .payment {
+    
+}
+.qris{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.payment img {
+    width: 50%;
+    max-width: 300px;
+    height: auto;
+}
 
 
 }
