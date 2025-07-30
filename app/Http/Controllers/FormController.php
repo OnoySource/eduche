@@ -14,12 +14,12 @@ class FormController extends Controller
         // Validasi inputan form
         $validated = $request->validate([
             'layanan' => ['required', 'in:turnitin,parafrase'],
-            'nama' => ['required', 'string', 'min:4', 'max:30'],
-            'email' => ['required', 'email'],
-            'no_hp' => ['required', 'numeric', 'digits_between:10,13'],
-            'univ' => ['required', 'min:7', 'max:30'],
-            'dokumen' => ['required', 'file', 'mimes:doc,docx,pdf', 'max:10240'], // 10 MB
-            'bukti' => ['required', 'file', 'mimes:jpg,png,jpeg', 'max:5120'], // 5 MB
+            'nama'    => ['required', 'string', 'min:4', 'max:30'],
+            'email'   => ['required', 'email'],
+            'no_hp'   => ['required', 'numeric', 'digits_between:10,13'],
+            'univ'    => ['required', 'min:7', 'max:30'],
+            'dokumen' => ['required', 'file', 'mimes:doc,docx,pdf', 'max:10240'], // max 10MB
+            'bukti'   => ['required', 'file', 'mimes:jpg,png,jpeg', 'max:5120'],  // max 5MB
         ]);
 
         try {
@@ -27,40 +27,45 @@ class FormController extends Controller
             $dokumenPath = $request->file('dokumen')->store('uploads/dokumen', 'public');
             $buktiPath   = $request->file('bukti')->store('uploads/bukti', 'public');
 
-            // Buat URL publik
-            $dokumenUrl = asset('storage/' . $dokumenPath);
-            $buktiUrl   = asset('storage/' . $buktiPath);
+            // Ambil base URL dari .env (APP_URL), fallback ke asset() kalau tidak ada
+            $baseUrl = config('app.url') ?? asset('');
 
-            // Format pesan teks utama
-            $pesan = <<<PESAN
+            // Buat URL publik ke file
+            $dokumenUrl = $baseUrl . '/storage/' . $dokumenPath;
+            $buktiUrl   = $baseUrl . '/storage/' . $buktiPath;
+
+            // Format pesan utama
+            $pesan = <<<TEXT
 📄 Form Pemesanan Educheck
 Layanan: {$validated['layanan']}
 Nama: {$validated['nama']}
 Email: {$validated['email']}
 No HP: {$validated['no_hp']}
 Universitas: {$validated['univ']}
-PESAN;
 
-            // Nomor admin tujuan
+> Sent via fonnte.com
+TEXT;
+
+            // Nomor admin WhatsApp (ganti sesuai kebutuhan)
             $adminNumber = '6285268360526';
 
-            // Kirim pesan teks
+            // Kirim pesan teks utama
             $this->sendFonnte($adminNumber, $pesan);
 
-            // Kirim file dokumen
+            // Kirim file dokumen dan bukti
             $this->sendFonnte($adminNumber, "📎 Dokumen dari {$validated['nama']}", $dokumenUrl);
-
-            // Kirim bukti transfer
             $this->sendFonnte($adminNumber, "📎 Bukti Transfer dari {$validated['nama']}", $buktiUrl);
 
             return back()->with('success', 'Form berhasil dikirim dan file sudah masuk ke WhatsApp Admin.');
-
         } catch (\Throwable $e) {
             Log::error('Gagal kirim Fonnte: ' . $e->getMessage());
             return back()->with('error', 'Gagal mengirim ke WhatsApp. Silakan coba beberapa saat lagi.');
         }
     }
 
+    /**
+     * Mengirim pesan ke Fonnte API
+     */
     private function sendFonnte(string $target, string $message, ?string $url = null): void
     {
         $token = env('FONNTE_TOKEN');
@@ -73,9 +78,9 @@ PESAN;
             ->withHeader('Authorization', $token)
             ->throw()
             ->post('https://api.fonnte.com/send', [
-                'target' => $target,
+                'target'  => $target,
                 'message' => $message,
-                'url' => $url,
+                'url'     => $url,
             ]);
     }
 }
