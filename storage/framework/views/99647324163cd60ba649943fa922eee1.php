@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <body>
@@ -80,11 +81,29 @@
     <!-------------------------------------------------->
     <div id="container">
         <?php if(session('success')): ?>
-    <div class="success-alert">
-        <strong>Sukses!</strong> <?php echo e(session('success')); ?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Sukses!',
+                text: '<?php echo e(session('success')); ?>',
+                showConfirmButton: false,
+                timer: 5000
+            });
+        </script>
+    <?php endif; ?>
 
-    </div>
-<?php endif; ?>
+    <?php if(session('error')): ?>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '<?php echo e(session('error')); ?>',
+                showConfirmButton: false,
+                timer: 5000
+            });
+        </script>
+    <?php endif; ?>
+
 
     <form action="<?php echo e(route('proses.form')); ?>" method="POST" id="formPemesanan" enctype="multipart/form-data">
         <?php echo csrf_field(); ?>
@@ -170,7 +189,6 @@ unset($__errorArgs, $__bag); ?>
                 <input type="file" name="dokumen" id="fileInputDokumen" hidden>
 
                 <button type="button" id="fileBtnDokumen">Pilih File</button>
-
                 <p style="color: #3e5c76; font-size: 11px;">Format: DOC, DOCX, PDF (Maks. 10MB)</p>
                 <?php $__errorArgs = ['dokumen'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
