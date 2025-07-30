@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use App\Helpers\Wablas;
 
 class FormController extends Controller
 {
     public function prosesForm(Request $request)
     {
-        // Validasi input
+        // Validasi inputan form
         $request->validate([
             'layanan' => 'required|in:turnitin,parafrase',
             'nama' => 'required|string|min:4|max:30',
@@ -23,22 +22,22 @@ class FormController extends Controller
         ]);
 
         try {
-            // Ambil data input
+            // Ambil semua inputan
             $layanan = $request->input('layanan');
             $nama    = $request->input('nama');
             $email   = $request->input('email');
             $nomor   = $request->input('no_hp');
             $univ    = $request->input('univ');
 
-            // Simpan file sementara di storage publik
+            // Simpan file ke storage publik
             $dokumenPath = $request->file('dokumen')->store('uploads/dokumen', 'public');
             $buktiPath   = $request->file('bukti')->store('uploads/bukti', 'public');
 
-            // Ambil URL untuk file yang bisa diakses publik
+            // Generate link file publik
             $dokumenUrl = asset('storage/' . $dokumenPath);
             $buktiUrl   = asset('storage/' . $buktiPath);
 
-            // Format pesan untuk admin
+            // Format pesan teks
             $pesan = "📄 *Form Pemesanan Educheck*\n"
                    . "Layanan: {$layanan}\n"
                    . "Nama: {$nama}\n"
@@ -46,19 +45,42 @@ class FormController extends Controller
                    . "No HP: {$nomor}\n"
                    . "Universitas: {$univ}";
 
-            $adminNumber = '6285268360526'; // Ganti dengan nomor admin
+            // Nomor tujuan WA
+            $adminNumber = '6285268360526'; // ← Ganti dengan nomor admin kamu
 
-            // Kirim pesan teks ke WA admin
-            Wablas::sendText($adminNumber, $pesan);
+            // Ambil token dari .env
+            $token = env('FONNTE_TOKEN');
 
-            // Kirim file dokumen dan bukti transfer ke WA admin
-            Wablas::sendFile($adminNumber, "📎 Dokumen dari {$nama}", $dokumenUrl);
-            Wablas::sendFile($adminNumber, "📎 Bukti Transfer dari {$nama}", $buktiUrl);
+            // Kirim pesan teks
+            Http::withHeaders([
+                'Authorization' => $token,
+            ])->asForm()->post('https://api.fonnte.com/send', [
+                'target' => $adminNumber,
+                'message' => $pesan,
+            ]);
 
-            return redirect()->back()->with('success', 'Form berhasil dikirim dan file sudah dikirim ke WhatsApp Admin.');
+            // Kirim dokumen
+            Http::withHeaders([
+                'Authorization' => $token,
+            ])->asForm()->post('https://api.fonnte.com/send', [
+                'target' => $adminNumber,
+                'message' => "📎 Dokumen dari {$nama}",
+                'url' => $dokumenUrl,
+            ]);
+
+            // Kirim bukti transfer
+            Http::withHeaders([
+                'Authorization' => $token,
+            ])->asForm()->post('https://api.fonnte.com/send', [
+                'target' => $adminNumber,
+                'message' => "📎 Bukti Transfer dari {$nama}",
+                'url' => $buktiUrl,
+            ]);
+
+            return redirect()->back()->with('success', 'Form berhasil dikirim dan file berhasil masuk ke WhatsApp Admin.');
         } catch (\Exception $e) {
-            Log::error('Gagal kirim ke Wablas: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Gagal mengirim pesan ke WhatsApp. Silakan coba lagi.');
+            Log::error('Gagal kirim Fonnte: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengirim ke WhatsApp. Coba lagi nanti.');
         }
     }
 }
