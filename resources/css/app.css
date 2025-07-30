@@ -612,21 +612,19 @@ body{
         margin-bottom: 10px;
     }
 
-  .payment {
-    
-}
-.qris{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
 
-.payment img {
-    width: 50%;
-    max-width: 300px;
-    height: auto;
-}
+    .qris{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .qris img {
+        width: 50%;
+        max-width: 300px;
+        height: auto;
+    }
 
 
 }
