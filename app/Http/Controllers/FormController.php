@@ -22,20 +22,31 @@ class FormController extends Controller
         ]);
 
         try {
-            // Ambil data form
             $layanan = $request->layanan;
             $nama    = $request->nama;
             $email   = $request->email;
             $nomor   = $request->no_hp;
             $univ    = $request->univ;
 
-            // Simpan file ke storage/public
-            $dokumenPath = $request->file('dokumen')->store('uploads/dokumen', 'public');
-            $buktiPath   = $request->file('bukti')->store('uploads/bukti', 'public');
+            // Buat nama file unik
+            $dokumenName = uniqid('dokumen_') . '.' . $request->file('dokumen')->getClientOriginalExtension();
+            $buktiName   = uniqid('bukti_') . '.' . $request->file('bukti')->getClientOriginalExtension();
 
-            // Buat URL file
-            $dokumenUrl = asset('storage/' . $dokumenPath);
-            $buktiUrl   = asset('storage/' . $buktiPath);
+            // Buat path folder tujuan
+            $dokumenPath = public_path('uploads/dokumen');
+            $buktiPath   = public_path('uploads/bukti');
+
+            // Pastikan folder ada
+            if (!file_exists($dokumenPath)) mkdir($dokumenPath, 0755, true);
+            if (!file_exists($buktiPath)) mkdir($buktiPath, 0755, true);
+
+            // Pindahkan file ke folder publik
+            $request->file('dokumen')->move($dokumenPath, $dokumenName);
+            $request->file('bukti')->move($buktiPath, $buktiName);
+
+            // Buat URL yang dapat diakses publik
+            $dokumenUrl = asset('uploads/dokumen/' . $dokumenName);
+            $buktiUrl   = asset('uploads/bukti/' . $buktiName);
 
             // Format pesan utama
             $pesan = <<<EOT
@@ -47,10 +58,8 @@ No HP: {$nomor}
 Universitas: {$univ}
 EOT;
 
-            // Nomor tujuan WA Admin
+            // Nomor admin & token
             $adminNumber = '6285268360526';
-
-            // Ambil token dari .env
             $token = env('FONNTE_TOKEN');
 
             if (!$token) {
@@ -58,7 +67,7 @@ EOT;
             }
 
             // Kirim pesan teks
-            $res1 = Http::withHeaders([
+            Http::withHeaders([
                 'Authorization' => $token
             ])->asForm()->post('https://api.fonnte.com/send', [
                 'target' => $adminNumber,
@@ -67,7 +76,7 @@ EOT;
             ])->throw();
 
             // Kirim dokumen
-            $res2 = Http::withHeaders([
+            Http::withHeaders([
                 'Authorization' => $token
             ])->asForm()->post('https://api.fonnte.com/send', [
                 'target' => $adminNumber,
@@ -77,7 +86,7 @@ EOT;
             ])->throw();
 
             // Kirim bukti transfer
-            $res3 = Http::withHeaders([
+            Http::withHeaders([
                 'Authorization' => $token
             ])->asForm()->post('https://api.fonnte.com/send', [
                 'target' => $adminNumber,
