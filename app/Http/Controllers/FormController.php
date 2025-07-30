@@ -5,50 +5,44 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class FormController extends Controller
 {
     public function prosesForm(Request $request)
     {
-        // Validasi inputan form
+        // Validasi input
         $request->validate([
             'layanan' => 'required|in:turnitin,parafrase',
             'nama' => 'required|string|min:4|max:30',
             'email' => 'required|email',
             'no_hp' => 'required|numeric|digits_between:10,13',
             'univ' => 'required|min:7|max:30',
-            'dokumen' => 'required|file|mimes:doc,docx,pdf|max:10240', // max 10 MB
-            'bukti' => 'required|file|mimes:jpg,png,jpeg|max:5120', // max 5 MB
+            'dokumen' => 'required|file|mimes:doc,docx,pdf|max:10240', // 10 MB
+            'bukti' => 'required|file|mimes:jpg,png,jpeg|max:5120',   // 5 MB
         ]);
 
         try {
+            // Ambil data form
             $layanan = $request->layanan;
             $nama    = $request->nama;
             $email   = $request->email;
             $nomor   = $request->no_hp;
             $univ    = $request->univ;
 
-            // Buat nama file unik
+            // Generate nama file unik
             $dokumenName = uniqid('dokumen_') . '.' . $request->file('dokumen')->getClientOriginalExtension();
             $buktiName   = uniqid('bukti_') . '.' . $request->file('bukti')->getClientOriginalExtension();
 
-            // Buat path folder tujuan
-            $dokumenPath = public_path('uploads/dokumen');
-            $buktiPath   = public_path('uploads/bukti');
+            // Simpan file ke storage (disk 'public')
+            $request->file('dokumen')->storeAs('uploads/dokumen', $dokumenName, 'public');
+            $request->file('bukti')->storeAs('uploads/bukti', $buktiName, 'public');
 
-            // Pastikan folder ada
-            if (!file_exists($dokumenPath)) mkdir($dokumenPath, 0755, true);
-            if (!file_exists($buktiPath)) mkdir($buktiPath, 0755, true);
+            // Buat URL file untuk dikirim via API
+            $dokumenUrl = asset('storage/uploads/dokumen/' . $dokumenName);
+            $buktiUrl   = asset('storage/uploads/bukti/' . $buktiName);
 
-            // Pindahkan file ke folder publik
-            $request->file('dokumen')->move($dokumenPath, $dokumenName);
-            $request->file('bukti')->move($buktiPath, $buktiName);
-
-            // Buat URL yang dapat diakses publik
-            $dokumenUrl = asset('uploads/dokumen/' . $dokumenName);
-            $buktiUrl   = asset('uploads/bukti/' . $buktiName);
-
-            // Format pesan utama
+            // Pesan utama ke admin
             $pesan = <<<EOT
 📄 *Form Pemesanan Educheck*
 Layanan: {$layanan}
@@ -58,7 +52,7 @@ No HP: {$nomor}
 Universitas: {$univ}
 EOT;
 
-            // Nomor admin & token
+            // Token dan nomor admin
             $adminNumber = '6285268360526';
             $token = env('FONNTE_TOKEN');
 
@@ -75,7 +69,7 @@ EOT;
                 'delay' => 2,
             ])->throw();
 
-            // Kirim dokumen
+            // Kirim file dokumen
             Http::withHeaders([
                 'Authorization' => $token
             ])->asForm()->post('https://api.fonnte.com/send', [
