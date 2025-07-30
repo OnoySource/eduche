@@ -11,6 +11,5 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/hasil', [HomeController::class, 'hasil']);
 
 Route::post('/',[FormController::class, 'prosesForm'])->name('proses.form');
-Route::get('/tes-kirim-wa', [FormController::class, 'kirimWa'])->name('kirim.wa');
 
 Route::get('/send-wa', [WhatsAppController::class, 'send']);
