@@ -5,77 +5,75 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class FormController extends Controller
 {
     public function prosesForm(Request $request)
     {
-        // Validasi inputan form
+        // Validasi inputan
         $validated = $request->validate([
-            'layanan' => ['required', 'in:turnitin,parafrase'],
-            'nama' => ['required', 'string', 'min:4', 'max:30'],
-            'email' => ['required', 'email'],
-            'no_hp' => ['required', 'numeric', 'digits_between:10,13'],
-            'univ' => ['required', 'min:7', 'max:30'],
-            'dokumen' => ['required', 'file', 'mimes:doc,docx,pdf', 'max:10240'], // 10 MB
-            'bukti' => ['required', 'file', 'mimes:jpg,png,jpeg', 'max:5120'], // 5 MB
+            'layanan'   => ['required', 'in:turnitin,parafrase'],
+            'nama'      => ['required', 'string', 'min:4', 'max:30'],
+            'email'     => ['required', 'email'],
+            'no_hp'     => ['required', 'numeric', 'digits_between:10,13'],
+            'univ'      => ['required', 'min:7', 'max:30'],
+            'dokumen'   => ['required', 'file', 'mimes:doc,docx,pdf', 'max:10240'], // max 10 MB
+            'bukti'     => ['required', 'file', 'mimes:jpg,jpeg,png', 'max:5120'],  // max 5 MB
         ]);
 
         try {
-            // Simpan file ke storage/app/public/uploads/...
+            // Simpan file ke public storage
             $dokumenPath = $request->file('dokumen')->store('uploads/dokumen', 'public');
             $buktiPath   = $request->file('bukti')->store('uploads/bukti', 'public');
 
-            // Buat URL publik menggunakan APP_URL (url() bukan asset())
+            // Buat URL publik ke file (pastikan APP_URL aktif)
             $dokumenUrl = url('storage/' . $dokumenPath);
             $buktiUrl   = url('storage/' . $buktiPath);
 
             // Format pesan utama
-            $pesan = <<<PESAN
+            $pesanUtama = <<<MSG
 📄 Form Pemesanan Educheck
 Layanan: {$validated['layanan']}
 Nama: {$validated['nama']}
 Email: {$validated['email']}
 No HP: {$validated['no_hp']}
 Universitas: {$validated['univ']}
-PESAN;
 
-            // Nomor tujuan admin
+📎 Dokumen: $dokumenUrl
+📎 Bukti Transfer: $buktiUrl
+
+> Sent via fonnte.com
+MSG;
+
+            // Nomor admin tujuan
             $adminNumber = '6285268360526';
 
-            // Kirim pesan utama
-            $this->sendFonnte($adminNumber, $pesan);
+            // Kirim semua data sekaligus
+            $this->sendFonnte($adminNumber, $pesanUtama);
 
-            // Kirim dokumen
-            $this->sendFonnte($adminNumber, "📎 Dokumen dari {$validated['nama']}", $dokumenUrl);
-
-            // Kirim bukti transfer
-            $this->sendFonnte($adminNumber, "📎 Bukti Transfer dari {$validated['nama']}", $buktiUrl);
-
-            return back()->with('success', 'Form berhasil dikirim dan file sudah masuk ke WhatsApp Admin.');
+            return back()->with('success', 'Form berhasil dikirim dan file berhasil masuk ke WhatsApp Admin.');
 
         } catch (\Throwable $e) {
-            Log::error('Gagal kirim Fonnte: ' . $e->getMessage());
+            Log::error('Gagal kirim via Fonnte: ' . $e->getMessage());
             return back()->with('error', 'Gagal mengirim ke WhatsApp. Silakan coba beberapa saat lagi.');
         }
     }
 
-    private function sendFonnte(string $target, string $message, ?string $url = null): void
+    private function sendFonnte(string $target, string $message): void
     {
         $token = env('FONNTE_TOKEN');
 
         if (! $token) {
-            throw new \Exception("Token Fonnte belum diset di .env");
+            throw new \Exception("FONNTE_TOKEN belum diatur di file .env");
         }
 
         Http::asForm()
             ->withHeader('Authorization', $token)
-            ->throw()
             ->post('https://api.fonnte.com/send', [
-                'target' => $target,
+                'target'  => $target,
                 'message' => $message,
-                'url' => $url,
-            ]);
+                'countryCode' => '62', // pastikan default kode negara
+            ])
+            ->throw();
     }
 }
