@@ -45,7 +45,7 @@
    <section>
        <div class="slider">
            <div class="slides">
-               <img src="<?php echo e(asset('images/image-1.png')); ?>" alt="">
+               <img src="<?php echo e(asset('images/image-slider-01.jpeg')); ?>" alt="">
                <img src="<?php echo e(asset('images/image-2.png')); ?>" alt="">
                <img src="<?php echo e(asset('images/image-1.png')); ?>" alt="">
                <img src="<?php echo e(asset('images/image-1.png')); ?>" alt="">

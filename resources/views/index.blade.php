@@ -45,7 +45,7 @@
    <section>
        <div class="slider">
            <div class="slides">
-               <img src="{{ asset('images/image-1.png') }}" alt="">
+               <img src="{{ asset('images/image-slider-01.jpeg') }}" alt="">
                <img src="{{ asset('images/image-2.png') }}" alt="">
                <img src="{{ asset('images/image-1.png') }}" alt="">
                <img src="{{ asset('images/image-1.png') }}" alt="">
