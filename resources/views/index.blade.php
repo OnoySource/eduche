@@ -14,7 +14,7 @@
 </head>
 <body>
     <header>
-        <h1>Educheck</h1>
+        <h1>educheck</h1>
         <div class="tagline">
             <h2>Layanan Cek Turnitin & Parafrase Profesional</h2>
         </div>
