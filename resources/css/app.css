@@ -194,7 +194,6 @@ body{
     }
     .image img{
         width: 70%;
-        border-radius: 50%;
         opacity: 0.7;
     }
     .box-text{
@@ -519,7 +518,7 @@ body{
     .slides {
         display: flex;
         width: 100%;
-        max-height: 300px;
+        max-height: 400px;
         animation: slide 20s infinite;
     }
     .slides img{

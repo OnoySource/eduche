@@ -45,10 +45,10 @@
    <section>
        <div class="slider">
            <div class="slides">
-               <img src="<?php echo e(asset('images/image-slider-01.jpeg')); ?>" alt="">
-               <img src="<?php echo e(asset('images/image-2.png')); ?>" alt="">
-               <img src="<?php echo e(asset('images/image-1.png')); ?>" alt="">
-               <img src="<?php echo e(asset('images/image-1.png')); ?>" alt="">
+               <img src="<?php echo e(asset('images/image-slider-1.png')); ?>" alt="">
+               <img src="<?php echo e(asset('images/image-slider-2.png')); ?>" alt="">
+               <img src="<?php echo e(asset('images/image-slider-3.png')); ?>" alt="">
+               <img src="<?php echo e(asset('images/image-slider-4.png')); ?>" alt="">
                <img src="<?php echo e(asset('images/image-1.png')); ?>" alt="">
 
         </div>
@@ -174,7 +174,7 @@ unset($__errorArgs, $__bag); ?>
             </div>
                 
             <div class="image">
-                <img src="icons/Default_image_of_a_student_in_his_room_sitting_in_front_of_a_l_0-1.jpg" alt="">
+                <img src="images/image-input.jpeg" alt="">
             </div>
         </div>
         <br> <br> <br> <br>
