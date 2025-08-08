@@ -1,6 +1,5 @@
     *{
-    boder:1px solid red;
- 
+    borer:1px solid red;
 }
 html, body {
     scroll-behavior: smooth;
@@ -467,6 +466,9 @@ body{
         color: #4895ef;
         font-size: 0.8rem;
         margin-top:4rem;
+    }
+    .tagline h2{
+        
     }
     #container{
         max-width: 900px;
