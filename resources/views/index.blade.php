@@ -49,7 +49,7 @@
                <img src="{{ asset('images/image-slider-2.png') }}" alt="">
                <img src="{{ asset('images/image-slider-3.png') }}" alt="">
                <img src="{{ asset('images/image-slider-4.png') }}" alt="">
-               <img src="{{ asset('images/image-1.png') }}" alt="">
+               <img src="{{ asset('images/image-slider-5.png') }}" alt="">
 
         </div>
         </div>
